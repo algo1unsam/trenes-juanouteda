@@ -1,6 +1,7 @@
 class Formacion{
 	
 	var vagones = []
+	var vagonesCarga= []
 	var locomotoras = []
 	
 	method agregarVagonAFormacion(unaFormacion){
@@ -34,8 +35,16 @@ class Formacion{
 	return	locomotoras.sum{unaLocomotora => unaLocomotora.arrastreUtil()} >=
 		vagones.sum{unVagon => unVagon.pesoMaximo()}
 	}
+	
+	method kilosEmpujeFaltantes(){
+		if (self.puedeMoverse()){
+			return 0
+		}
+		else {
+			return (vagones.sum{unVagon => unVagon.pesoMaximo()} - locomotoras.sum{unaLocomotora => unaLocomotora.arrastreUtil()})
+	}
 }
-
+}
 
 class VagonPasajeros{
 	
