@@ -1,6 +1,82 @@
-/** First Wollok example */
-object wollok {
-	method howAreYou() {
-		return 'I am Wolloktastic!'
+class Formacion{
+	
+	var vagones = []
+	var locomotoras = []
+	
+	method agregarVagonAFormacion(unaFormacion){
+		
+		vagones.add(unaFormacion)
+	}
+	
+	method agregarLocomotoraAFormacion(unaLocomotora){
+		locomotoras.add(unaLocomotora)
+	}
+	
+	
+	method totalPasajerosATransportar(){
+	return	vagones.sum{vagon => vagon.cantidadPasajerosATransportar()}
+	}
+	
+	method cuantosVagonesLivianosHay(){
+		return vagones.count{vagon=>vagon.pesoMaximo()<2500}
+	}
+	
+	method velocidadMaxima(){
+		return locomotoras.min({unaLocomotora => unaLocomotora.velocidadMaxima()}).velocidadMaxima()
+		   
+	}
+	
+	method esEficiente(){
+		return locomotoras.all{unaLocomotora => unaLocomotora.peso()*5 < unaLocomotora.pesoMaximoArrastre()}	
+	}
+	
+	method puedeMoverse(){
+	return	locomotoras.sum{unaLocomotora => unaLocomotora.arrastreUtil()} >=
+		vagones.sum{unVagon => unVagon.pesoMaximo()}
+	}
+}
+
+
+class VagonPasajeros{
+	
+	var largo = 0
+	var ancho = 0
+	var cantidadPasajeros = 0
+	
+	method cantidadPasajerosATransportar(){
+		if (ancho < 2.5){
+			cantidadPasajeros = largo * 8
+			return cantidadPasajeros
+		}
+		else {cantidadPasajeros = largo * 10}
+		return cantidadPasajeros
+		
+	}
+	
+	method pesoMaximo(){
+		
+		return self.cantidadPasajerosATransportar() * 80
+		
+	}
+		
+}
+
+class VagonCarga {
+	var property cargaMaxima = 0 
+	
+	method pesoMaximo(){
+		return self.cargaMaxima() + 160
+		
+	}
+}
+
+class Locomotora{
+	
+	var property peso = 200
+	var property pesoMaximoArrastre = 120000
+	var property velocidadMaxima = 80
+	
+	method arrastreUtil(){
+	return	pesoMaximoArrastre - peso
 	}
 }
