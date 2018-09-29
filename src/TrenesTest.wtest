@@ -1,0 +1,98 @@
+import trenes.*
+test "si tenemos dos vagones de pasajeros, los dos de 10 metros de largo,
+ uno de 2 metros de ancho útil, y otro de 3 metros de ancho útil, entonces
+ el primero puede llevar 80 pasajeros, y el segundo puede llevar 100.
+ Un vagón de pasajeros no puede llevar carga." {
+		var vagoncito = new VagonPasajeros (largo = 10 , ancho = 2)
+		var vagoncito2 = new VagonPasajeros (largo = 10 , ancho = 3)
+		assert.equals(80, vagoncito.cantidadPasajerosATransportar())
+		assert.equals(100, vagoncito2.cantidadPasajerosATransportar())
+}
+
+
+test  "Cantidad total de pasajeros a transportar"{
+	var tren1 = new Formacion()
+	var vagoncito = new VagonPasajeros (largo = 10 , ancho = 2)
+	var vagoncito2 = new VagonPasajeros (largo = 10 , ancho = 3)
+	tren1.agregarVagonAFormacion(vagoncito)
+	tren1.agregarVagonAFormacion(vagoncito2)
+	assert.equals(180, tren1.totalPasajerosATransportar())
+	
+}
+
+test "Cuantos Vagones Livianos hay, son livianos si peso maximo es menor a 2500"{
+	var tren1 = new Formacion()
+	var vagoncito = new VagonPasajeros (largo = 10 , ancho = 2)
+	var vagoncito2 = new VagonPasajeros (largo = 10 , ancho = 3)
+	var vagoncito3 = new VagonPasajeros (largo = 2 , ancho = 3)
+	tren1.agregarVagonAFormacion(vagoncito)// este tiene 80 pasajeros peso maximo 6400
+	tren1.agregarVagonAFormacion(vagoncito2)// este tiene 100 pasajeros peso maximo 8000
+	tren1.agregarVagonAFormacion(vagoncito3)// este tiene 16 pasajeros peso maximo 1200
+	assert.equals(1, tren1.cuantosVagonesLivianosHay())
+}
+
+test "La velocidad máxima de una formación, que es el mínimo entre las velocidades máximas de las locomotoras."{
+	var tren1 = new Formacion()
+	var locomotora = new Locomotora()
+	var locomotora2 = new Locomotora()
+	locomotora.velocidadMaxima(199)
+	locomotora2.velocidadMaxima(40)	
+	tren1.agregarLocomotoraAFormacion(locomotora)
+	tren1.agregarLocomotoraAFormacion(locomotora2)
+	assert.equals(40, tren1.velocidadMaxima())
+}
+
+test "Si una formación es eficiente; es eficiente si cada una de sus locomotoras arrastra, al menos, 5 veces su peso (el de la locomotora misma)."{
+	var tren1 = new Formacion()
+	var locomotora = new Locomotora()
+	var locomotora2 = new Locomotora()
+	locomotora.velocidadMaxima(199)
+	locomotora2.velocidadMaxima(40)
+	locomotora.peso(500)
+	locomotora2.peso(100)	
+	tren1.agregarLocomotoraAFormacion(locomotora)
+	tren1.agregarLocomotoraAFormacion(locomotora2)
+	assert.that(tren1.esEficiente())
+}
+
+test "Si una formación puede moverse. Una formación puede moverse si el arrastre útil total de sus locomotoras es mayor o igual al peso máximo total de los vagones."{
+	var tren1 = new Formacion()
+	var vagoncito = new VagonPasajeros (largo = 10 , ancho = 2)
+	var vagoncito2 = new VagonPasajeros (largo = 10 , ancho = 3)
+	tren1.agregarVagonAFormacion(vagoncito)
+	tren1.agregarVagonAFormacion(vagoncito2)
+	var locomotora = new Locomotora()
+	var locomotora2 = new Locomotora()
+	tren1.agregarLocomotoraAFormacion(locomotora)
+	tren1.agregarLocomotoraAFormacion(locomotora2)
+	locomotora.peso(500)
+	locomotora2.peso(100)
+	assert.that(tren1.puedeMoverse())	
+		
+	
+}
+
+test "Cuántos kilos de empuje le faltan a una formación para poder moverse, que es: 0 si ya se puede mover, y (peso máximo total de los vagones – arrastre útil total de las locomotoras) en caso contrario."{
+		var tren1 = new Formacion()
+	var vagoncito = new VagonPasajeros (largo = 10 , ancho = 2)
+	var vagoncito2 = new VagonPasajeros (largo = 10 , ancho = 3)
+	tren1.agregarVagonAFormacion(vagoncito)
+	tren1.agregarVagonAFormacion(vagoncito2)
+	var locomotora = new Locomotora()
+	var locomotora2 = new Locomotora()
+	tren1.agregarLocomotoraAFormacion(locomotora)
+	tren1.agregarLocomotoraAFormacion(locomotora2)
+	locomotora.peso(500)
+	locomotora2.peso(100)
+	assert.that(tren1.puedeMoverse())	
+	assert.equals(0, tren1.kilosEmpujeFaltantes())
+	locomotora.pesoMaximoArrastre(2000)
+	locomotora2.pesoMaximoArrastre(1000)
+	assert.notThat(tren1.puedeMoverse())
+	assert.equals(12000, tren1.kilosEmpujeFaltantes())
+}
+
+test "Dado un depósito, obtener el conjunto formado por el vagón más pesado de cada formación; se espera un conjunto de vagones."{
+	
+}
+	
