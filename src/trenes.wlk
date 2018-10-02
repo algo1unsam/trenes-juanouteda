@@ -4,6 +4,8 @@ class Formacion{
 	var vagonesCarga= []
 	var locomotoras = []
 	
+	
+	
 	method agregarVagonAFormacion(unaFormacion){
 		
 		vagones.add(unaFormacion)
@@ -13,6 +15,17 @@ class Formacion{
 		locomotoras.add(unaLocomotora)
 	}
 	
+	method agregarVagonesCargaAFormacion(unVagonCarga){
+		vagonesCarga.add(unVagonCarga)
+	}
+	
+	method enviarVagonesCargaADeposito(unDeposito){
+		vagonesCarga.forEach{unVagon=>unDeposito.agregar(unVagon)} 
+	}
+	
+	method enviarVagonesADeposito(unDeposito){
+		vagones.forEach{unVagon=>unDeposito.agregar(unVagon)}
+	}
 	
 	method totalPasajerosATransportar(){
 	return	vagones.sum{vagon => vagon.cantidadPasajerosATransportar()}
@@ -88,4 +101,21 @@ class Locomotora{
 	method arrastreUtil(){
 	return	pesoMaximoArrastre - peso
 	}
+}
+
+class Deposito{
+	var coleccionDeposito = []
+	var vagonesPesados =[]
+	
+	
+	method agregar(unVagon){
+		coleccionDeposito.add(unVagon)
+	}
+	
+	method vagonesMasPesados(){
+		vagonesPesados.add(coleccionDeposito.max{unVagon => unVagon.pesoMaximo()}.pesoMaximo())
+		return vagonesPesados
+	}
+	
+	
 }

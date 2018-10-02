@@ -73,7 +73,7 @@ test "Si una formación puede moverse. Una formación puede moverse si el arrast
 }
 
 test "Cuántos kilos de empuje le faltan a una formación para poder moverse, que es: 0 si ya se puede mover, y (peso máximo total de los vagones – arrastre útil total de las locomotoras) en caso contrario."{
-		var tren1 = new Formacion()
+	var tren1 = new Formacion()
 	var vagoncito = new VagonPasajeros (largo = 10 , ancho = 2)
 	var vagoncito2 = new VagonPasajeros (largo = 10 , ancho = 3)
 	tren1.agregarVagonAFormacion(vagoncito)
@@ -93,6 +93,21 @@ test "Cuántos kilos de empuje le faltan a una formación para poder moverse, qu
 }
 
 test "Dado un depósito, obtener el conjunto formado por el vagón más pesado de cada formación; se espera un conjunto de vagones."{
+	var depositoTrenes = new Deposito()
+	var tren1 = new Formacion()
+	var vagoncito = new VagonPasajeros (largo = 10 , ancho = 2)
+	var vagoncito2 = new VagonPasajeros (largo = 10 , ancho = 6)
+	tren1.agregarVagonAFormacion(vagoncito)
+	tren1.agregarVagonAFormacion(vagoncito2)
+	tren1.enviarVagonesADeposito(depositoTrenes)	
+	assert.equals([8000] ,depositoTrenes.vagonesMasPesados())
+	var tren2 = new Formacion()
+	var vagoncitoCarga = new VagonCarga (cargaMaxima = 200)
+	var vagoncitoCarga2 = new VagonCarga (cargaMaxima = 2000)
+	tren2.agregarVagonesCargaAFormacion(vagoncitoCarga)
+	tren2.agregarVagonesCargaAFormacion(vagoncitoCarga2)
+	tren2.enviarVagonesCargaADeposito(depositoTrenes)	
+	assert.equals([8000,8000] ,depositoTrenes.vagonesMasPesados())
 	
 }
 	
