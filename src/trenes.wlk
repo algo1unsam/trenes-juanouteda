@@ -33,6 +33,11 @@ class Formacion{
 	
 	method cuantosVagonesLivianosHay(){
 		return vagones.count{vagon=>vagon.pesoMaximo()<2500}
+
+	}
+	
+	method vagonMasPesado(){
+		
 	}
 	
 	method velocidadMaxima(){
@@ -113,7 +118,7 @@ class Deposito{
 	}
 	
 	method vagonesMasPesados(){
-		vagonesPesados.add(coleccionDeposito.max{unVagon => unVagon.pesoMaximo()}.pesoMaximo())
+	 vagonesPesados.add(coleccionDeposito.max{unVagon => unVagon.pesoMaximo()})	
 		return vagonesPesados
 	}
 	

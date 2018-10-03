@@ -100,14 +100,14 @@ test "Dado un depósito, obtener el conjunto formado por el vagón más pesado d
 	tren1.agregarVagonAFormacion(vagoncito)
 	tren1.agregarVagonAFormacion(vagoncito2)
 	tren1.enviarVagonesADeposito(depositoTrenes)	
-	assert.equals([8000] ,depositoTrenes.vagonesMasPesados())
+//	assert.equals([vagoncito2] ,depositoTrenes.vagonesMasPesados())
 	var tren2 = new Formacion()
 	var vagoncitoCarga = new VagonCarga (cargaMaxima = 200)
 	var vagoncitoCarga2 = new VagonCarga (cargaMaxima = 2000)
 	tren2.agregarVagonesCargaAFormacion(vagoncitoCarga)
 	tren2.agregarVagonesCargaAFormacion(vagoncitoCarga2)
 	tren2.enviarVagonesCargaADeposito(depositoTrenes)	
-	assert.equals([8000,8000] ,depositoTrenes.vagonesMasPesados())
+	assert.equals([vagoncito2] ,depositoTrenes.vagonesMasPesados())
 	
 }
 	
