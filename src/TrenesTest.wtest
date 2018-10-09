@@ -10,8 +10,8 @@ describe "Formaciones y deposito"{
 		var vagoncito4 = new VagonPasajeros (largo = 4 , ancho = 2 , cantidadDeBanios = 1)
 		var vagoncitoCarga = new VagonCarga (cargaMaxima = 200)
 		var vagoncitoCarga2 = new VagonCarga (cargaMaxima = 2000)
-		var tren1 = new Formacion()
-		var tren2 = new Formacion()	
+		var tren1 = new FormacionCortaDistancia()
+		var tren2 = new FormacionCortaDistancia()
 		var locomotora = new Locomotora()
 	    var locomotora2 = new Locomotora()
 		var depositoTrenes = new Deposito()
@@ -139,6 +139,47 @@ test "Formacion bien armada de larga distancia tiene un banio cada 50 pasajeros"
 	trenZarate.agregarVagonAFormacion(vagoncito)
 	trenZarate.agregarVagonAFormacion(vagoncito)
 	trenZarate.agregarLocomotoraAFormacion(locomotora)
+	trenZarate.agregarLocomotoraAFormacion(locomotora2)
+	assert.that(trenZarate.estaBienArmada())
+}
+
+test "Velocidad Maxima trenCorta Distancia"{
+	var trenSuarezRetiro = new FormacionCortaDistancia()
+	trenSuarezRetiro.agregarVagonAFormacion(vagoncito3)
+	trenSuarezRetiro.agregarVagonAFormacion(vagoncito4)
+	trenSuarezRetiro.agregarLocomotoraAFormacion(locomotora)
+	assert.equals(60, trenSuarezRetiro.velocidadMaxima())
+}
+
+test "Testeo velocidad Maxima tren Larga Distancia"{
+	var buenosAires = new Ciudad()
+	var rosario = new Ciudad()
+	var tren3 = new FormacionLargaDistancia(ciudad1 = buenosAires , ciudad2 = rosario)
+	tren3.agregarVagonAFormacion(vagoncito3)
+	tren3.agregarVagonAFormacion(vagoncito4)
+	tren3.agregarLocomotoraAFormacion(locomotora)
+	assert.equals(80, tren3.velocidadMaxima())
+}
+
+test "Velocidad Maxima de trenes larga distancia segun las ciudades origen y destino"{
+	var buenosAires = new Ciudad()
+	var rosario = new Ciudad()
+	var tren3 = new FormacionLargaDistancia(ciudad1 = buenosAires , ciudad2 = rosario)
+	tren3.agregarVagonAFormacion(vagoncito3)
+	tren3.agregarVagonAFormacion(vagoncito4)
+	tren3.agregarLocomotoraAFormacion(locomotora)
+	assert.equals(200, tren3.velocidadMaximaLegal())
+
+	}
+
+
+
+test "Tren de alta Velocidad esta bien armado"{
+	var trenZarate = new FormacionLargaDistancia()
+	trenZarate.agregarVagonAFormacion(vagoncito)
+	trenZarate.agregarVagonAFormacion(vagoncito)
+	trenZarate.agregarLocomotoraAFormacion(locomotora)
+	assert.notThat(trenZarate.estaBienArmada())
 	trenZarate.agregarLocomotoraAFormacion(locomotora2)
 	assert.that(trenZarate.estaBienArmada())
 }
