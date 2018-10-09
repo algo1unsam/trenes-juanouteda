@@ -1,7 +1,8 @@
-class Formacion{
+import Vagones.*
+class Formacion{//es una clase abstracta, comparte 
+//metodos en comun con las subclases pero no se deben instanciar. no funcionaria
 	
 	var vagones = []
-	var vagonesCarga= []
 	var locomotoras = []
 	
 	
@@ -15,17 +16,6 @@ class Formacion{
 		locomotoras.add(unaLocomotora)
 	}
 	
-	method agregarVagonesCargaAFormacion(unVagonCarga){
-		vagonesCarga.add(unVagonCarga)
-	}
-	
-	method enviarVagonesCargaADeposito(unDeposito){
-		vagonesCarga.forEach{unVagon=>unDeposito.agregar(unVagon)} 
-	}
-	
-	method enviarVagonesADeposito(unDeposito){
-		vagones.forEach{unVagon=>unDeposito.agregar(unVagon)}
-	}
 	
 	method totalPasajerosATransportar(){
 	return	vagones.sum{vagon => vagon.cantidadPasajerosATransportar()}
@@ -36,14 +26,25 @@ class Formacion{
 
 	}
 	
+	method pesoTotalVagones(){
+	return	vagones.sum{unVagon=>unVagon.pesoMaximo()}
+	}
+	
 	method vagonMasPesado(){
+		return vagones.max{unVagon=>unVagon.pesoMaximo()}
 		
 	}
 	
-	method velocidadMaxima(){
+	method velocidadMaximaLocomotora(){
 		return locomotoras.min({unaLocomotora => unaLocomotora.velocidadMaxima()}).velocidadMaxima()
 		   
 	}
+	
+	method velocidadMaxima(){
+		
+	}
+	
+	
 	
 	method esEficiente(){
 		return locomotoras.all{unaLocomotora => unaLocomotora.peso()*5 < unaLocomotora.pesoMaximoArrastre()}	
@@ -62,45 +63,48 @@ class Formacion{
 			return (vagones.sum{unVagon => unVagon.pesoMaximo()} - locomotoras.sum{unaLocomotora => unaLocomotora.arrastreUtil()})
 	}
 }
+	method esCompleja(){
+	return	(vagones.size()+locomotoras.size() > 20 ) or (self.pesoTotalVagones() + locomotoras.sum{unaLocomotora=>unaLocomotora.peso()}>10000)
+	}
 }
 
-class VagonPasajeros{
+// esta clse hereda de otra, podemos definirles atributos nuevos y podemos definirle metodos nuevos.
+// Tiene tambien todos los atributos y metodos de la superclase.
+//. que pasa cuando le mando un mensaje al objeto:method lookup
+//primero busca en la clase donde esta instaciado el objeto. Sino lo encuentra sigue para la superClase.
+// 
+
+class FormacionCortaDistancia inherits Formacion{
+	method estaBienArmada()= self.puedeMoverse() and not self.esCompleja()
+	override method velocidadMaxima(){ self.velocidadMaximaLocomotora().min(60)
 	
-	var largo = 0
-	var ancho = 0
-	var cantidadPasajeros = 0
+		   
+	}
 	
-	method cantidadPasajerosATransportar(){
-		if (ancho < 2.5){
-			cantidadPasajeros = largo * 8
-			return cantidadPasajeros
+	
+}
+class FormacionLargaDistancia inherits Formacion{
+
+	
+	method estaBienArmada() {
+		return self.puedeMoverse() and self.tieneSufucientesBanios()
+		 		 }	
+	method tieneSufucientesBanios(){
+		return self.cantidadDeBanios()>= self.totalPasajerosATransportar() / 50 
+				}
+				
+	method cantidadDeBanios() { 
+		return	vagones.sum{vagon => vagon.cantidadBanios()}
 		}
-		else {cantidadPasajeros = largo * 10}
-		return cantidadPasajeros
-		
 	}
-	
-	method pesoMaximo(){
-		
-		return self.cantidadPasajerosATransportar() * 80
-		
-	}
-		
-}
 
-class VagonCarga {
-	var property cargaMaxima = 0 
 	
-	method pesoMaximo(){
-		return self.cargaMaxima() + 160
-		
-	}
-}
-
-class Locomotora{
 	
-	var property peso = 200
-	var property pesoMaximoArrastre = 120000
+	
+class Locomotora {
+	
+	var property peso = 1000
+	var property pesoMaximoArrastre = 12000
 	var property velocidadMaxima = 80
 	
 	method arrastreUtil(){
@@ -108,19 +112,3 @@ class Locomotora{
 	}
 }
 
-class Deposito{
-	var coleccionDeposito = []
-	var vagonesPesados =[]
-	
-	
-	method agregar(unVagon){
-		coleccionDeposito.add(unVagon)
-	}
-	
-	method vagonesMasPesados(){
-	 vagonesPesados.add(coleccionDeposito.max{unVagon => unVagon.pesoMaximo()})	
-		return vagonesPesados
-	}
-	
-	
-}
