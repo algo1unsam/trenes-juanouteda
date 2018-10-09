@@ -94,7 +94,7 @@ class FormacionLargaDistancia inherits Formacion{
 				}
 				
 	method cantidadDeBanios() { 
-		return	vagones.sum{vagon => vagon.cantidadBanios()}
+		return	vagones.sum{vagon => vagon.cantidadDeBanios()}
 		}
 	}
 

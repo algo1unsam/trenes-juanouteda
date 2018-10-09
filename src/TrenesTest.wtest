@@ -139,6 +139,7 @@ test "Formacion bien armada de larga distancia tiene un banio cada 50 pasajeros"
 	trenZarate.agregarVagonAFormacion(vagoncito)
 	trenZarate.agregarVagonAFormacion(vagoncito)
 	trenZarate.agregarLocomotoraAFormacion(locomotora)
+	trenZarate.agregarLocomotoraAFormacion(locomotora2)
 	assert.that(trenZarate.estaBienArmada())
 }
 
