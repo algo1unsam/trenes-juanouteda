@@ -40,9 +40,13 @@ class Formacion{//es una clase abstracta, comparte
 		   
 	}
 	
-	method velocidadMaxima(){
-		
-	}
+	method velocidadMaxima() {
+ 
+  		return self.velocidadMaximaLocomotora().min(self.velocidadMaximaLegal())
+ 
+ 	}
+ 
+	method velocidadMaximaLegal()
 	
 	
 	
@@ -76,7 +80,7 @@ class Formacion{//es una clase abstracta, comparte
 
 class FormacionCortaDistancia inherits Formacion{
 	method estaBienArmada()= self.puedeMoverse() and not self.esCompleja()
-	override method velocidadMaxima(){ self.velocidadMaximaLocomotora().min(60)
+	override method velocidadMaximaLegal(){ self.velocidadMaximaLocomotora().min(60)
 	
 		   
 	}
@@ -85,6 +89,9 @@ class FormacionCortaDistancia inherits Formacion{
 }
 class FormacionLargaDistancia inherits Formacion{
 
+	const property ciudad1 = null
+	const property ciudad2 = null
+	
 	
 	method estaBienArmada() {
 		return self.puedeMoverse() and self.tieneSufucientesBanios()
@@ -95,8 +102,30 @@ class FormacionLargaDistancia inherits Formacion{
 				
 	method cantidadDeBanios() { 
 		return	vagones.sum{vagon => vagon.cantidadDeBanios()}
-		}
-	}
+
+ 		}
+ 		
+ 		override method velocidadMaximaLegal() {
+ 
+  		return if (ciudad1.esGrande() and ciudad2.esGrande()) 
+  		return 200 
+  		else return 150
+ 
+  	}
+ 
+
+ 			
+ 			
+} 		
+ 		
+ 		
+
+
+class Ciudad{
+	  var property esGrande = true
+	  
+	  
+}
 
 	
 	
