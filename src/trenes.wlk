@@ -127,9 +127,9 @@ class FormacionLargaDistancia inherits Formacion{
 
 class FormacionAltaVelocidad inherits FormacionLargaDistancia{
 	
-	 override 	method estaBienArmada(){
+	  	override method estaBienArmada(){ 
 	 	
-	 	return self.velocidadMaxima() >= 250 and self.esLiviano()
+	 	return  super() and self.velocidadMaxima() >= 250 and self.esLiviano()
 			
 		}
 	
